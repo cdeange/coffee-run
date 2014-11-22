@@ -1,9 +1,26 @@
-<ListView xmlns:android="http://schemas.android.com/apk/res/android"
-          xmlns:tools="http://schemas.android.com/tools"
-          android:layout_width="match_parent"
-          android:layout_height="match_parent"
-          android:choiceMode="singleChoice"
-          android:divider="@android:color/transparent"
-          android:dividerHeight="0dp"
-          android:background="#cccc"
-          tools:context="com.deange.coffeerun.ui.NavigationDrawerFragment"/>
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#cccc">
+
+    <ListView
+            android:id="@android:id/list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_above="@+id/facebook_logout_button"
+            android:choiceMode="singleChoice"
+            android:dividerHeight="0dp"
+            tools:context="com.deange.coffeerun.ui.NavigationDrawerFragment"/>
+
+    <com.facebook.widget.LoginButton
+            android:id="@id/facebook_logout_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="8dp"/>
+
+</RelativeLayout>

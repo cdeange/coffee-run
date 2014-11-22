@@ -31,10 +31,6 @@ public class NavigationDrawerFragment extends Fragment {
     private static final String PREF_USER_LEARNED_DRAWER = "navigation_drawer_learned";
 
     private OnDrawerItemSelectedListener mCallback;
-
-    /**
-     * Helper component that ties the action bar to the navigation drawer.
-     */
     private ActionBarDrawerToggle mDrawerToggle;
 
     private DrawerLayout mDrawerLayout;
@@ -76,8 +72,9 @@ public class NavigationDrawerFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        mDrawerListView = (ListView) inflater.inflate(
-                R.layout.fragment_groups, container, false);
+        final View root = inflater.inflate(R.layout.fragment_groups, container, false);
+
+        mDrawerListView = (ListView) root.findViewById(android.R.id.list);
         mDrawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -92,7 +89,7 @@ public class NavigationDrawerFragment extends Fragment {
         ));
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
         selectItem(mCurrentSelectedPosition);
-        return mDrawerListView;
+        return root;
     }
 
     public boolean isDrawerOpen() {

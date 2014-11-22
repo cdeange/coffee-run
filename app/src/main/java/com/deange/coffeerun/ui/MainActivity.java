@@ -1,5 +1,6 @@
 package com.deange.coffeerun.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
@@ -8,8 +9,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.deange.coffeerun.R;
+import com.facebook.Session;
+import com.facebook.SessionState;
 
-public class MainActivity extends ActionBarActivity
+public class MainActivity extends FacebookActivity
         implements NavigationDrawerFragment.OnDrawerItemSelectedListener {
 
     private static final String FRAGMENT_TAG = "FRAGMENT";
@@ -36,10 +39,17 @@ public class MainActivity extends ActionBarActivity
     }
 
     @Override
+    protected void onSessionStateChange(final Session session, final SessionState state, final Exception exception) {
+        if (state.isClosed()) {
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
+        }
+    }
+
+    @Override
     public void onNavigationDrawerItemSelected(int position) {
 
         findNavigationDrawer();
-
         if (mNavigationDrawerFragment != null) {
             setTitle(String.valueOf(mNavigationDrawerFragment.getItem(position)));
         }
