@@ -24,6 +24,10 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.deange.coffeerun.R;
+import com.deange.coffeerun.model.Group;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class NavigationDrawerFragment extends Fragment {
 
@@ -40,6 +44,7 @@ public class NavigationDrawerFragment extends Fragment {
     private int mCurrentSelectedPosition = 0;
     private boolean mFromSavedInstanceState;
     private boolean mUserLearnedDrawer;
+    private List<Group> mGroups = new ArrayList<>();
 
     public NavigationDrawerFragment() {
     }
@@ -218,6 +223,20 @@ public class NavigationDrawerFragment extends Fragment {
         return mDrawerListView == null
                 ? getString(R.string.app_name)
                 : mDrawerListView.getAdapter().getItem(position);
+    }
+
+    public void setGroups(final List<Group> groups) {
+        mCurrentSelectedPosition = 0;
+        mGroups = groups;
+        mDrawerListView.setAdapter(new GroupAdapter(getActivity(), mGroups));
+
+        if (!mGroups.isEmpty()) {
+            mCallback.setTitle(String.valueOf(getItem(mCurrentSelectedPosition)));
+        }
+    }
+
+    public List<Group> getGroups() {
+        return mGroups;
     }
 
     public static interface OnDrawerItemSelectedListener {

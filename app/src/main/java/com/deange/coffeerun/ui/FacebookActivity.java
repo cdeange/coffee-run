@@ -33,12 +33,6 @@ public abstract class FacebookActivity extends ActionBarActivity {
     protected void onResume() {
         super.onResume();
         AppEventsLogger.activateApp(this);
-
-        final Session session = Session.getActiveSession();
-        if (session != null && (session.isOpened() || session.isClosed()) ) {
-            onSessionStateChange(session, session.getState(), null);
-        }
-
         mUiHelper.onResume();
     }
 

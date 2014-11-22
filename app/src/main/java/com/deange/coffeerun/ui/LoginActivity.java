@@ -18,11 +18,7 @@ import com.facebook.SessionState;
 import com.facebook.model.GraphUser;
 import com.facebook.widget.LoginButton;
 
-import org.apache.http.HttpStatus;
-
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.Reader;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -46,6 +42,15 @@ public class LoginActivity
         authButton.setPublishPermissions("email", "public_profile");
 
         mProgressView = findViewById(R.id.progress_view);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        final Session session = Session.getActiveSession();
+        if (session != null && session.isOpened() && User.getUser() != null) {
+            startMainActivity();
+        }
     }
 
     @Override
@@ -77,6 +82,9 @@ public class LoginActivity
 
     @Override
     public void onCompleted(final GraphUser graphUser, final Response response) {
+
+        if (User.getUser() != null) return;
+
         final User user = new User(graphUser.getName());
         user.email = String.valueOf(graphUser.getProperty("email"));
         user.token = Session.getActiveSession().getAccessToken();
@@ -99,6 +107,10 @@ public class LoginActivity
         // Save the current user now
         User.setUser(user);
 
+        startMainActivity();
+    }
+
+    private void startMainActivity() {
         startActivity(new Intent(this, MainActivity.class));
         finish();
     }
@@ -110,12 +122,10 @@ public class LoginActivity
         setLoading(false);
 
         Session.getActiveSession().closeAndClearTokenInformation();
+        User.setUser(null);
 
         error.printStackTrace();
         Toast.makeText(this, "Could not log in. Please try again.", Toast.LENGTH_LONG).show();
 
     }
 }
-
-
-
