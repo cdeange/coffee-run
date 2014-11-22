@@ -3,6 +3,7 @@
     <style name="AppTheme" parent="AppCommon">
         <item name="android:colorPrimary">@color/action_bar_bg</item>
         <item name="android:colorPrimaryDark">@color/status_bar_bg</item>
+        <item name="android:navigationBarColor">@color/navigation_bar_bg</item>
     </style>
 
 </resources>
