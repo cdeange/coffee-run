@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- http://colllor.com/5E5345 -->
+
     <color name="coffee">#5E5345</color>
     <color name="coffee_activated">#6A5E4E</color>
-    <color name="coffee_highlight">#463E34</color>
+    <color name="coffee_highlight">@color/coffee</color>
+    <color name="coffee_dark">#463E34</color>
+
+    <color name="coffee_text">@android:color/white</color>
 
     <color name="status_bar_bg">@color/coffee</color>
     <color name="action_bar_bg">@color/coffee</color>
