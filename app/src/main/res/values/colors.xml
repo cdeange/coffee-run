@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="coffee">#5E5345</color>
+    <color name="coffee_activated">#6A5E4E</color>
+    <color name="coffee_highlight">#463E34</color>
+
+    <color name="status_bar_bg">@color/coffee_activated</color>
+    <color name="action_bar_bg">@color/coffee</color>
+</resources>
