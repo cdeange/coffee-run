@@ -9,23 +9,21 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.deange.coffeerun.R;
 import com.deange.coffeerun.model.Group;
+import com.deange.coffeerun.model.Order;
 import com.deange.coffeerun.model.User;
 import com.deange.coffeerun.net.ApiBuilder;
 import com.deange.coffeerun.net.CoffeeApi;
-import com.deange.coffeerun.util.GsonController;
 import com.deange.coffeerun.util.Utils;
 import com.facebook.Session;
 import com.facebook.SessionState;
-import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit.Callback;
@@ -63,6 +61,13 @@ public class MainActivity extends FacebookActivity
         getGroupsForUser();
     }
 
+    private void showGroup(final int id) {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.container, GroupFragment.newInstance(id), FRAGMENT_TAG)
+                .commit();
+    }
+
     @Override
     protected void onSessionStateChange(final Session session, final SessionState state, final Exception exception) {
         if (state.isClosed()) {
@@ -77,13 +82,11 @@ public class MainActivity extends FacebookActivity
 
         findNavigationDrawer();
         if (mNavigationDrawerFragment != null) {
-            setTitle(String.valueOf(mNavigationDrawerFragment.getItem(position)));
+            final Group group = mNavigationDrawerFragment.getItem(position);
+            setTitle(group == null ? getString(R.string.app_name) : group.name);
         }
 
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.container, GroupFragment.newInstance(position), FRAGMENT_TAG)
-                .commit();
+        showGroup(mNavigationDrawerFragment.getItem(position).gid);
     }
 
     private void findNavigationDrawer() {
@@ -121,6 +124,32 @@ public class MainActivity extends FacebookActivity
             return true;
         }
         return super.onCreateOptionsMenu(menu);
+    }
+
+    private void createOrder(final String item,
+                             final String size,
+                             final String price,
+                             final String details) {
+
+        mApi.makeRequest(
+                User.getUser().uid,
+                mNavigationDrawerFragment.getCurrentGroup().gid,
+                item,
+                size,
+                Double.parseDouble(price),
+                details,
+                new Callback<Order>() {
+                    @Override
+                    public void success(final Order order, final Response response) {
+                        int i = 0;
+                    }
+
+                    @Override
+                    public void failure(final RetrofitError error) {
+                        Toast.makeText(
+                                MainActivity.this, "Could not create order", Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     private void createGroup(final String name) {
@@ -163,7 +192,6 @@ public class MainActivity extends FacebookActivity
     public boolean onOptionsItemSelected(MenuItem item) {
 
         if (item.getItemId() == R.id.menu_create_group) {
-
             final View root = getLayoutInflater().inflate(R.layout.dialog_create_group, null);
             new AlertDialog.Builder(this)
                     .setView(root)
@@ -182,7 +210,33 @@ public class MainActivity extends FacebookActivity
                         }
                     })
                     .show();
+
+        } else if (item.getItemId() == R.id.menu_create_order) {
+            final View root = getLayoutInflater().inflate(R.layout.dialog_create_order, null);
+            new AlertDialog.Builder(this)
+                    .setView(root)
+                    .setTitle(R.string.menu_add_order)
+                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(final DialogInterface dialog, final int which) {
+                            createOrder(
+                                    ((EditText) root.findViewById(R.id.order_item_edit)).getText().toString(),
+                                    ((EditText) root.findViewById(R.id.order_size_edit)).getText().toString(),
+                                    ((EditText) root.findViewById(R.id.order_price_edit)).getText().toString(),
+                                    ((EditText) root.findViewById(R.id.order_details_edit)).getText().toString());
+                        }
+                    })
+                    .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(final DialogInterface dialog, final int which) {
+                            dialog.dismiss();
+                        }
+                    })
+                    .show();
+
         }
+
+
         return super.onOptionsItemSelected(item);
     }
 

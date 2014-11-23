@@ -5,18 +5,18 @@ import com.google.gson.annotations.SerializedName;
 public class Order {
 
     @SerializedName("orid")
-    int orid;
+    public int orid;
 
     @SerializedName("item")
-    String item;
+    public String item;
 
     @SerializedName("size")
-    String size;
+    public String size;
 
     @SerializedName("price")
-    double price;
+    public double price;
 
     @SerializedName("details")
-    String details;
+    public String details;
 
 }

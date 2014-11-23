@@ -6,7 +6,7 @@ import retrofit.RestAdapter;
 public class ApiBuilder {
 
     public static final int VERSION = 2;
-    public static final String BASE_URL = "http://6e88941e.ngrok.com/api/tims";
+    public static final String BASE_URL = "https://55c33430.ngrok.com/api/tims";
 
     /* package */ static ApiModelConverter sConverter = ApiModelConverter.newInstance();
 

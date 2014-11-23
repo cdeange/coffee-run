@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fillViewport="true">
+
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="16dp">
+
+        <EditText
+                android:id="@+id/order_item_edit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:hint="Name"/>
+
+        <EditText
+                android:id="@+id/order_size_edit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:layout_below="@id/order_item_edit"
+                android:hint="Size"/>
+
+        <EditText
+                android:id="@+id/order_price_edit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:inputType="numberDecimal"
+                android:layout_below="@id/order_size_edit"
+                android:hint="Price"/>
+
+        <EditText
+                android:id="@+id/order_details_edit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:layout_below="@id/order_price_edit"
+                android:gravity="top|left|start"
+                android:lines="3"
+                android:hint="Details"/>
+
+    </RelativeLayout>
+
+</ScrollView>

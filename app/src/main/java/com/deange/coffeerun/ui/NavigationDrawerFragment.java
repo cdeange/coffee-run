@@ -29,7 +29,7 @@ import com.deange.coffeerun.model.Group;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NavigationDrawerFragment extends Fragment {
+public class NavigationDrawerFragment extends Fragment implements AdapterView.OnItemClickListener {
 
     private static final String STATE_SELECTED_POSITION = "selected_navigation_drawer_position";
     private static final String PREF_USER_LEARNED_DRAWER = "navigation_drawer_learned";
@@ -63,8 +63,6 @@ public class NavigationDrawerFragment extends Fragment {
             mFromSavedInstanceState = true;
         }
 
-        // Select either the default item (0) or the last selected item.
-        selectItem(mCurrentSelectedPosition);
     }
 
     @Override
@@ -80,20 +78,8 @@ public class NavigationDrawerFragment extends Fragment {
         final View root = inflater.inflate(R.layout.fragment_groups, container, false);
 
         mDrawerListView = (ListView) root.findViewById(android.R.id.list);
-        mDrawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                selectItem(position);
-            }
-        });
-        mDrawerListView.setAdapter(new ArrayAdapter<>(
-                getActivity(),
-                R.layout.list_item_group,
-                android.R.id.text1,
-                getResources().getStringArray(R.array.api_array)
-        ));
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
-        selectItem(mCurrentSelectedPosition);
+        mDrawerListView.setOnItemClickListener(this);
         return root;
     }
 
@@ -125,7 +111,7 @@ public class NavigationDrawerFragment extends Fragment {
                     return;
                 }
 
-                mCallback.setTitle(String.valueOf(getItem(mCurrentSelectedPosition)));
+                mCallback.setTitle(getItem(mCurrentSelectedPosition).name);
                 getActivity().invalidateOptionsMenu();
             }
 
@@ -215,14 +201,19 @@ public class NavigationDrawerFragment extends Fragment {
     }
 
     @Override
+    public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
+        selectItem(position);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         return mDrawerToggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
     }
 
-    public Object getItem(final int position) {
-        return mDrawerListView == null
-                ? getString(R.string.app_name)
-                : mDrawerListView.getAdapter().getItem(position);
+    public Group getItem(final int position) {
+        return mDrawerListView == null || mDrawerListView.getAdapter() == null
+                ? null
+                : (Group) mDrawerListView.getAdapter().getItem(position);
     }
 
     public void setGroups(final List<Group> groups) {
@@ -231,12 +222,12 @@ public class NavigationDrawerFragment extends Fragment {
         mDrawerListView.setAdapter(new GroupAdapter(getActivity(), mGroups));
 
         if (!mGroups.isEmpty()) {
-            mCallback.setTitle(String.valueOf(getItem(mCurrentSelectedPosition)));
+            selectItem(0);
         }
     }
 
-    public List<Group> getGroups() {
-        return mGroups;
+    public Group getCurrentGroup() {
+        return mGroups.get(mCurrentSelectedPosition);
     }
 
     public static interface OnDrawerItemSelectedListener {

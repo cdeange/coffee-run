@@ -1,6 +1,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <item android:id="@+id/menu_create_order"
+          android:title="@string/menu_add_order"
+          android:icon="@drawable/ic_action_action_add_shopping_cart"
+          app:showAsAction="ifRoom" />
+
     <item android:id="@+id/menu_create_group"
           android:title="@string/menu_add_group"
           android:icon="@drawable/ic_action_social_group_add"

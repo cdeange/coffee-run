@@ -9,6 +9,7 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="menu_add_group">Create Group</string>
+    <string name="menu_add_order">Create Order</string>
 
     <array name="api_array">
         <item>Item 1</item>

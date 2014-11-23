@@ -35,7 +35,7 @@ public class GroupAdapter extends BaseAdapter {
 
     @Override
     public long getItemId(final int position) {
-        return position;
+        return mGroups.get(position).gid;
     }
 
     @Override

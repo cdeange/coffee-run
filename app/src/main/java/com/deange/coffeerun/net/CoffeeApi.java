@@ -37,4 +37,8 @@ public interface CoffeeApi {
                             @Query("details") final String details,
                             final Callback<Order> callback);
 
+    @GET("/group/requests")
+    public void getOrders(@Query("gid") final int gid,
+                          final Callback<List<Order>> callback);
+
 }
